@@ -72,7 +72,8 @@
   (let [curr-room (get-in adv [:location])]
    (if-let [dest (get-in the-map [curr-room :dir dir])]
      (assoc-in adv [:location] dest)
-     (println "You cannot go that direction. ")) ))
+     (do (println "You cannot go that direction. ")
+         adv) )))
 
 (defn pick [dir adv]
   (let [curr-room (get-in adv [:location])]
