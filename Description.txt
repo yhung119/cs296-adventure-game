@@ -1,0 +1,80 @@
+Requirements:
+	1. >= 15 locations
+	2. >= 10 items
+	3. >= 20 verbs e.g. North, East
+	4. Puzzles
+	5. Pick up things and perform actions on the object/ change the object
+	6. inventory verb
+	7. one monster
+
+Locations:
+	BedRoom : title:
+			  description:
+			  to do:
+			  direction:
+
+	Living Room :
+
+	Hall :
+
+	Door :
+
+	Kitchen :
+
+	Room : 
+
+	Siebal :
+
+	CRCE :
+
+	Bar :
+
+	KTV :
+
+	Grainger :
+
+	Bus :
+
+	ChinaTown :
+
+	WillesTower : 
+
+Actions:
+	north
+	south
+	east
+	west
+	pick
+	drop
+	eat
+	cook
+	jog
+	use
+	attack
+	find seat
+	defend
+	throw
+	tp
+	drink
+	jump
+	watch
+	flirt
+	sleep
+
+Monster:
+	exam
+	craig
+
+Adventurer has:
+	name:
+	location
+	inventory
+	before
+	hp 
+	skills : social
+
+Puzzle:
+	decode hash function
+
+
+

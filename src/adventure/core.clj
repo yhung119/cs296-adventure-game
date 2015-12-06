@@ -11,7 +11,7 @@
            :title "in the bedroom"
            :dir {:south :hallway
                   }
-           :content [:pen]
+           :content ["pen"]
            } 
    :living_room {:desc "There is a TV, laptop, and a good life. But you shouldn't have a good life. "
               :title "in the living room"
@@ -33,7 +33,7 @@
               :todo "west to the hallway"
               :dir {:west :hallway
                }
-              :content [:egg]}
+              :content ["egg"]}
    :door {:desc "a door"
           :title "a door"
           :todo "north to the hallway" 
@@ -47,16 +47,22 @@
            :title "ECEB"
            :todo "go back to the door"
            :dir {:north :door}
+           :content []
          }
     :siebal{:desc "go there and study! :)"
             :title "Siebal"
             :todo "west to the door"
             :dir {:west :door}
+            :content []
     }
    })
 
 (def adventurer
   {:location :bedroom
+   :name ""
+   :hp 0
+   :skill 0
+   :social 0
    :inventory #{}
    :before #{}})
 
@@ -75,11 +81,12 @@
      (do (println "You cannot go that direction. ")
          adv) )))
 
-(defn pick [dir adv]
+(defn pick [obj adv]
   (let [curr-room (get-in adv [:location])]
-   (if-let [dest (get-in the-map [curr-room :content 0])]
-     (update-in adv [:content] dest)
-     (println "You cannot go that direction. ")) ))
+   (if-let [dest (get-in the-map [curr-room :content obj])]
+     (do (println "You cannot go that direction. " (-> the-map curr-room :content 0))(update-in adv [:inventory] dest))
+     (do (println "You cannot go that direction. " (-> the-map curr-room :content 0))
+        adv) ))) 
 
 (defn respond [inst adv]
   (match inst
@@ -97,7 +104,10 @@
 
 (defn -main
   [& args]
-  (println "Good morning! Fellow UIUC student, how was your sleep? Did you say you slept well eh? oh well I will make sure today is your night mare, get ready kiddo")
+  (println "What is your name")
+  (let [adv-name (adventurer :name)]
+        )
+  (println "Good morning! Fellow UIUC student, how was your sleep? Did you say you slept well eh? oh well I will make sure today is your nightmare, get ready kiddos")
   (loop [the-m the-map
          the-a adventurer]
     (let [location (the-a :location)
