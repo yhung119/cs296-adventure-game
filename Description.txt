@@ -10,34 +10,36 @@ Requirements:
 Locations:
 	BedRoom : title:
 			  description:
-			  to do:
 			  direction:
+			  item : cellphone
 
-	Living Room :
+	Living Room : item : key, calculator
 
-	Hall :
+	Hall : 
 
 	Door :
 
-	Kitchen :
+	Kitchen : item : egg
 
-	Room : 
+	ORD : item : airplan
 
-	Siebal :
+	Siebal : item : computer
 
-	CRCE :
+	CRCE : item : basketball, volleyball
 
-	Bar :
+	Bar : item : alcohol
 
-	KTV :
+	KTV : item : mic
 
-	Grainger :
+	Grainger : item : seats
 
-	Bus :
+	Bus : 
 
-	ChinaTown :
+	ChinaTown : 
 
 	WillesTower : 
+
+	MP solution Party : 
 
 Actions:
 	north
@@ -52,7 +54,6 @@ Actions:
 	use
 	attack
 	find seat
-	defend
 	throw
 	tp
 	drink
@@ -60,6 +61,7 @@ Actions:
 	watch
 	flirt
 	sleep
+	help
 
 Monster:
 	exam
@@ -75,6 +77,12 @@ Adventurer has:
 
 Puzzle:
 	decode hash function
+
+Todo:
+	pick up: (def adventurer (update-in adventurer [:inventory] #(conj % dest)))
+	drop objects  (def adventurer (update-in adventurer [:inventory] #(disj % dest)))
+	write descriptions
+	help
 
 
 
