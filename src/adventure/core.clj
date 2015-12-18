@@ -89,7 +89,7 @@
        inv (get-in adv [:inventory])]
    (if-let [dest (get-in the-map [curr-room :content obj])]
     (if (contains? inv dest) (do (println "You already have the item") adv)
-        (update-in adv [:inventory] #(assoc % dest)))
+        (update-in adv [:inventory] #(conj % dest)))
      (do (println "There is no such item. ")
         adv) )))
 (defn dropItem [obj adv]
@@ -103,11 +103,15 @@
 (defn print_content [adv]
     (let [location (adv :location)]
     (do (print (str (-> the-map location :content)))adv)))
+
+(defn tp [location adv]
+    )
+
 (defn respond [inst adv]
   (if (contains? inst 1)
   (match [(inst 0)]
           [:pick] (pick (inst 1) adv)
-          [:dropItem] (drop (inst 1) adv)
+          [:dropItem] (dropItem (inst 1) adv)
           [_](do
               (println (str "I'm sorry Dave. I cannot allow you to do that."))
               adv)
