@@ -11,15 +11,14 @@
            :title "in the bedroom"
            :dir {:south :hallway
                   }
-           :content {:egg "egg"
-                     :what "what"}
+           :content #{"egg","what"}
            }
    :living_room {:desc "There is a TV, laptop, and a good life. But you shouldn't have a good life. "
               :title "in the living room"
               :todo "east to the hallway"
               :dir {:east :hallway
                   }
-              :content {:calculator "calculator"}
+              :content #{"calculator"}
             }
    :hallway {:desc "It is very short, but not too short. "
               :title "the hallway"
@@ -57,14 +56,20 @@
             :content {}
     }
    })
-
+(def puzzle
+  {
+    :q1 {:question ""
+         :answer ""}
+    :q2 {:question ""
+         :answer ""}
+    })
 (def adventurer
   {:location :bedroom
    :name ""
-   :hp 0
+   :hp 100
    :skill 0
    :social 0
-   :inventory #{}
+   :inventory #{"key"}
    :before #{}})
 
 (defn status [adv]
@@ -74,21 +79,25 @@
     (when-not ((adv :before) location)
       (print (-> the-map location :desc) ) )
     (update-in adv [:before] #(conj % location))))
+
 (defn adv_status [adv]
-  (do (println (str (-> adv :location)" "(-> adv :name)" "(-> adv :hp) " " (-> adv :skill) " " (-> adv :social)))adv))
+  (do (println (str "You are at "(-> (name (adv :location)))". Name: "(-> adv :name)". HP: "(-> adv :hp) ". Skill Point: " (-> adv :skill) ". Social Point: " (-> adv :social)))adv))
+
 (defn go [dir adv]
-  (let [curr-room (get-in adv [:location])]
+  (let [curr-room (get-in adv [:location])
+        inv (get-in adv [:inventory])]
    (if-let [dest (get-in the-map [curr-room :dir dir])]
-     (assoc-in adv [:location] dest)
+     (if (and (= dest :door)(not (contains? inv :key))) (do (println "You forgot your key")adv) (assoc-in adv [:location] dest))
      (do (println "You cannot go that direction. ")
          adv) )))
 
 (defn pick [obj adv]
   (let [curr-room (get-in adv [:location])
+       cont (get-in the-map [curr-room :content])
        inv (get-in adv [:inventory])]
-   (if-let [dest (get-in the-map [curr-room :content obj])]
-    (if (contains? inv dest) (do (println "You already have the item") adv)
-        (update-in adv [:inventory] #(conj % dest)))
+   (if (cont (name obj))
+    (if (inv (name obj)) (do (println "You already have the item") adv)
+        (do (println (str "You have pick up a(n) "(name obj)))(update-in adv [:inventory] #(conj % (name obj)))))
      (do (println "There is no such item. ")
         adv) )))
 
@@ -107,7 +116,12 @@
     (do (println (str (-> the-map location :content)))adv)))
 
 (defn tp [location adv]
-    )
+    (let [inv (adv :inventory)]
+    (if (contains? inv :huehue)
+      (if (contains? the-map location)
+        (do (println (str "You have teleproted to the "(name location))) (assoc-in adv [:location] location))
+        (do (println "You can't go that way")adv))
+      (do (println "You don't have the thing that allow you to do that yet")adv))))
 
 (defn sleep [adv]
     (do (println "You are at full health")(assoc-in adv [:hp] 100)))
@@ -117,6 +131,7 @@
   (match [(inst 0)]
           [:pick] (pick (inst 1) adv)
           [:dropItem] (dropItem (inst 1) adv)
+          [:tp] (tp (inst 1) adv)
           [_](do
               (println (str "I'm sorry "(-> adv :name)". I cannot allow you to do that."))
               adv)

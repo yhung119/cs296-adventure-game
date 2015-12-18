@@ -15,7 +15,7 @@ Locations:
 
 	Living Room : item : key, calculator
 
-	Hall : 
+	Hall :
 
 	Door :
 
@@ -33,13 +33,13 @@ Locations:
 
 	Grainger : item : seats
 
-	Bus : 
+	Bus :
 
-	ChinaTown : 
+	ChinaTown :
 
-	WillesTower : 
+	WillesTower :
 
-	MP solution Party : 
+	MP solution Party :
 
 Actions:
 	north
@@ -73,17 +73,15 @@ Adventurer has:
 	location
 	inventory
 	before
-	hp 
+	hp
 	skills : social
 
 Puzzle:
 	decode hash function
+	lyrics
 
 Todo:
 	pick up: (def adventurer (update-in adventurer [:inventory] #(conj % dest)))
 	drop objects  (def adventurer (update-in adventurer [:inventory] #(disj % dest)))
 	write descriptions
 	help
-
-
-
