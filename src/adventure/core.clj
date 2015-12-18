@@ -3,8 +3,7 @@
             [clojure.core.match :refer [match]]
                )
   (:gen-class))
-; [clojure.core.match :refer [match]]
-; [clojure.string :as str]
+
 (def the-map
   {
    :bedroom {:desc "There is a bed, and a warm warm warm blanket that is pretty effective in putting you to sleep"
@@ -75,8 +74,8 @@
     (when-not ((adv :before) location)
       (print (-> the-map location :desc) ) )
     (update-in adv [:before] #(conj % location))))
-
-
+(defn adv_status [adv]
+  (do (println (str (-> adv :location)" "(-> adv :name)" "(-> adv :hp) " " (-> adv :skill) " " (-> adv :social)))adv))
 (defn go [dir adv]
   (let [curr-room (get-in adv [:location])]
    (if-let [dest (get-in the-map [curr-room :dir dir])]
@@ -92,20 +91,26 @@
         (update-in adv [:inventory] #(conj % dest)))
      (do (println "There is no such item. ")
         adv) )))
+
 (defn dropItem [obj adv]
     (if-let [dest (get-in adv [:inventory obj])]
       (update-in adv [:inventory] #(dissoc % dest))
       (do (println "You don't have such item")
        adv)))
+
 (defn print_inventory [adv]
     (do (println (seq (adv :inventory)))
       adv))
+
 (defn print_content [adv]
     (let [location (adv :location)]
-    (do (print (str (-> the-map location :content)))adv)))
+    (do (println (str (-> the-map location :content)))adv)))
 
 (defn tp [location adv]
     )
+
+(defn sleep [adv]
+    (do (println "You are at full health")(assoc-in adv [:hp] 100)))
 
 (defn respond [inst adv]
   (if (contains? inst 1)
@@ -113,7 +118,7 @@
           [:pick] (pick (inst 1) adv)
           [:dropItem] (dropItem (inst 1) adv)
           [_](do
-              (println (str "I'm sorry Dave. I cannot allow you to do that."))
+              (println (str "I'm sorry "(-> adv :name)". I cannot allow you to do that."))
               adv)
           )
   (match inst
@@ -123,8 +128,10 @@
          [:east] (go :east adv)
          [:inventory] (print_inventory adv)
          [:content] (print_content adv)
+         [:status] (adv_status adv)
+         [:sleep] (sleep adv)
          _ (do
-             (println (str "I'm sorry Dave. I cannot allow you to do that."))
+             (println (str "I'm sorry "(-> adv :name)". I cannot allow you to do that."))
              adv) )
     ) )
 
@@ -133,13 +140,13 @@
 
 (defn -main
   [& args]
-  (println "What is your name")
+  (println "What is your name?")
   (let [n (read-line)
         adv-n (adventurer :name)
-        adv (assoc-in adventurer [:name] n)]
-  (println (str "Good morning, "(str(adv :name))"! How was your sleep? "))
+        adv' (assoc-in adventurer [:name] n)]
+  (println (str "Good morning, "(str (-> adv' :name))"! How was your sleep? "))
   (loop [the-m the-map
-         the-a adventurer]
+         the-a adv']
     (let [location (the-a :location)
           the-a' (status the-a)
           _      (println (str " What do you wanna do? You can go "  (str(-> the-m location :todo))))
