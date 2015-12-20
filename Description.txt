@@ -63,6 +63,7 @@ Actions:
 	sleep
 	help
 	inventory
+  //content
 
 Monster:
 	exam
