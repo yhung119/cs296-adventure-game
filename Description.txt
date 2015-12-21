@@ -21,7 +21,7 @@ Locations:
 
 	Kitchen : item : egg
 
-	ORD : item : airplan
+	ORD : item : airplane
 
 	Siebal : item : computer
 
