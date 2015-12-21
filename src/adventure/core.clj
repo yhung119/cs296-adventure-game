@@ -199,6 +199,7 @@
    :att 20
    :defeat 0})
 (def help "Useful Command:\n \n Directions:\n\n south/north/west/east/up/down/in/out/find/leave/take\n\n Actions:\n\n pick(get)/drop/puzzle/sleep/eat/drink/jump/talk/fight and some hidden actions\n\n Status:\n\n status(display your status)/inventory(display your inventory items)\n\n Fighting:\n\n You need to 'fight' the monster before can do anything below\n attack(damange is equal to your skill points)\n use(use the items in your inventory...some might not be useful)\n You can also use command like inventory or status\n\n Abbreviation:\n\n 'i' for inventory\n 's' for status \n 'att' for attack\n\n Note 1:\n\n The hidden action teleport/tp takes a place for destination but some might not work because we aren't allow to have space when we name our locations\n\n Note 2:\n\n If you lost to the exam, you will lose all of your items\n")
+(def firstTime "Welcome to the game, if this is your first time you might be confused about what to pick up or what to drop. The object in the descriptions of the room can sometimes be picked up, but some can't. Some verbs take one argument, for example, pick calculator. I think you are all set now. To get all the commands, type help.")
 (def adventurer
   {:location :bedroom
    :name ""
@@ -482,6 +483,7 @@
          [:sleep] (sleep adv)
          [:puzzle] (puzzles adv)
          [:help] (do (println help)adv)
+         [:first] (do (println firstTime) adv)
          [:fight] (fighting adv mon)
          [:jump] (jump adv)
          [:eat] (eat adv)
@@ -514,7 +516,7 @@
   (let [n (read-line)
         adv-n (adventurer :name)
         adv' (assoc-in adventurer [:name] n)]
-  (println (str "Good morning, "(str (-> adv' :name))"! How was your sleep? Welcome to The Exam Day. Get ready for the exam by studying or if you want to have fun, go around the campus. Explore the world! If this is your first time playing, type help for informations."))
+  (println (str "Good morning, "(str (-> adv' :name))"! How was your sleep? Welcome to The Exam Day. Get ready for the exam by studying or if you want to have fun, go around the campus. Explore the world! If this is your first time playing, type first for informations and help for commands."))
   (loop [the-m the-map
          the-mon exam
          the-a adv'
